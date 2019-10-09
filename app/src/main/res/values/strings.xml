@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Poker Prophet</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="holdem_str">Холдем</string>
+    <string name="omaha_str">Омаха</string>
+</resources>

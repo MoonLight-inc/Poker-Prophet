@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/startFragment">
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="com.moonlight.pokerprophet.StartFragment"
+        android:label="fragment_start"
+        tools:layout="@layout/fragment_start" >
+        <action
+            android:id="@+id/action_startFragment_to_holdemFragment"
+            app:destination="@id/holdemFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_omahaFragment"
+            app:destination="@id/omahaFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/omahaFragment"
+        android:name="com.moonlight.pokerprophet.OmahaFragment"
+        android:label="fragment_omaha"
+        tools:layout="@layout/fragment_omaha" >
+        <action
+            android:id="@+id/action_omahaFragment_to_rulesFragment"
+            app:destination="@id/rulesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/holdemFragment"
+        android:name="com.moonlight.pokerprophet.HoldemFragment"
+        android:label="fragment_holdem"
+        tools:layout="@layout/fragment_holdem" >
+        <action
+            android:id="@+id/action_holdemFragment_to_rulesFragment"
+            app:destination="@+id/rulesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/rulesFragment"
+        android:name="com.moonlight.pokerprophet.RulesFragment"
+        android:label="fragment_rules"
+        tools:layout="@layout/fragment_rules" />
+</navigation>
