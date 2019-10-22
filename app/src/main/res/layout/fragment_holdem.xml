@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#005A4B"
-    tools:context=".HoldemFragment">
+    tools:context=".frags.HoldemFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -59,41 +59,35 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:baselineAligned="false"
 
+        android:layout_marginBottom="16dp"
+        android:baselineAligned="false"
         android:gravity="center"
         android:orientation="horizontal"
         android:showDividers="middle|beginning|end|none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline">
+        app:layout_constraintStart_toStartOf="parent">
 
         <include
             android:id="@+id/hand1"
             layout="@layout/card_holder"
             android:layout_width="60dp"
             android:layout_height="150dp"
-            android:layout_weight="1"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            android:layout_weight="1" />
 
         <include
             android:id="@+id/hand2"
             layout="@layout/card_holder"
             android:layout_width="60dp"
             android:layout_height="150dp"
-            android:layout_weight="1"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            android:layout_weight="1" />
     </LinearLayout>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="283dp" />
 
     <Button
         android:id="@+id/rules_btn"
@@ -120,12 +114,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         android:text="TextView"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

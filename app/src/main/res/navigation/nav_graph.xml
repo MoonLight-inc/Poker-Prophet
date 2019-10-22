@@ -6,7 +6,7 @@
     app:startDestination="@id/startFragment">
     <fragment
         android:id="@+id/startFragment"
-        android:name="com.moonlight.pokerprophet.StartFragment"
+        android:name="com.moonlight.pokerprophet.frags.StartFragment"
         android:label="fragment_start"
         tools:layout="@layout/fragment_start" >
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/omahaFragment"
-        android:name="com.moonlight.pokerprophet.OmahaFragment"
+        android:name="com.moonlight.pokerprophet.frags.OmahaFragment"
         android:label="fragment_omaha"
         tools:layout="@layout/fragment_omaha" >
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/holdemFragment"
-        android:name="com.moonlight.pokerprophet.HoldemFragment"
+        android:name="com.moonlight.pokerprophet.frags.HoldemFragment"
         android:label="fragment_holdem"
         tools:layout="@layout/fragment_holdem" >
         <action
@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/rulesFragment"
-        android:name="com.moonlight.pokerprophet.RulesFragment"
+        android:name="com.moonlight.pokerprophet.frags.RulesFragment"
         android:label="fragment_rules"
         tools:layout="@layout/fragment_rules" />
 </navigation>
