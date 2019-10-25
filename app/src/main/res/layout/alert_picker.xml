@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/spades"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:clipToPadding="false"
+        android:paddingLeft="@dimen/spacing_middle"
+        android:paddingTop="@dimen/spacing_medium"
+        android:paddingRight="@dimen/spacing_middle"
+        android:paddingBottom="@dimen/spacing_medium"
+        android:scrollbars="none" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/diamonds"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:clipToPadding="false"
+        android:paddingLeft="@dimen/spacing_middle"
+        android:paddingTop="@dimen/spacing_medium"
+        android:paddingRight="@dimen/spacing_middle"
+        android:paddingBottom="@dimen/spacing_medium"
+        android:scrollbars="none" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/clubs"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:clipToPadding="false"
+        android:paddingLeft="@dimen/spacing_middle"
+        android:paddingTop="@dimen/spacing_medium"
+        android:paddingRight="@dimen/spacing_middle"
+        android:paddingBottom="@dimen/spacing_medium"
+        android:scrollbars="none" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/hearts"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:clipToPadding="false"
+        android:paddingLeft="@dimen/spacing_middle"
+        android:paddingTop="@dimen/spacing_medium"
+        android:paddingRight="@dimen/spacing_middle"
+        android:paddingBottom="@dimen/spacing_medium"
+        android:scrollbars="none" />
+
+
+</LinearLayout>
