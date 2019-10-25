@@ -10,6 +10,8 @@ public class DataUtil {
     public static ArrayList<String> ranks = new ArrayList<>(Arrays.asList("2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k", "a"));
     public static ArrayList<String> suits = new ArrayList<>(Arrays.asList("c", "d", "s", "h"));
 
+    //TODO Combo
+
 
     public static List<Card> getCards(final String suit) {
         List<Card> cards = new ArrayList<>();
