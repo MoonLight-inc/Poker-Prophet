@@ -42,6 +42,8 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ImageHolder img = (ImageHolder) holder;
         String cardId = "img_" + cards.get(position % cards.size()).getRank() + cards.get(position % cards.size()).getSuit();
         img.imageView.setImageResource(context.getResources().getIdentifier(cardId, "drawable", context.getPackageName()));
+        img.imageView.setTag(cardId.subSequence(4, cardId.length()));
+        System.out.println(cardId.subSequence(4, cardId.length()));
 
     }
 
@@ -56,11 +58,28 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         public ImageHolder(View v) {
             super(v);
+
             imageView = v.findViewById(R.id.imageHolder);
+
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     ((ImageView) clicked.findViewById(R.id.imageView)).setImageDrawable(imageView.getDrawable());
+                    String tag = imageView.getTag().toString();
+                    switch (cards.get(0).getSuit()) {
+                        case "c":
+                            DataUtil.ranks_c.remove(tag.substring(0, tag.length() - 1));
+                            break;
+                        case "h":
+                            DataUtil.ranks_h.remove(tag.substring(0, tag.length() - 1));
+                            break;
+                        case "s":
+                            DataUtil.ranks_s.remove(tag.substring(0, tag.length() - 1));
+                            break;
+                        case "d":
+                            DataUtil.ranks_d.remove(tag.substring(0, tag.length() - 1));
+                            break;
+                    }
                     //((Activity)context).onBackPressed();
                     alertDialog.dismiss();
                 }
