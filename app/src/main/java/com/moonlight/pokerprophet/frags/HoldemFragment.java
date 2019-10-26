@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,6 +31,7 @@ public class HoldemFragment extends Fragment {
     private MaterialCardView hand1, hand2, table1, table2, table3, table4, table5, clicked;
     private AlertDialog.Builder builder;
     private AlertDialog dial;
+    private Button reset;
 
     public HoldemFragment() {
         // Required empty public constructor
@@ -49,6 +51,8 @@ public class HoldemFragment extends Fragment {
         table3 = root.findViewById(R.id.table3);
         table4 = root.findViewById(R.id.table4);
         table5 = root.findViewById(R.id.table5);
+
+        reset = root.findViewById(R.id.reset_btn);
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -70,7 +74,17 @@ public class HoldemFragment extends Fragment {
         table5.setOnClickListener(onClickListener);
 
 
-        // Inflate the layout for this fragment
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DataUtil.reset();
+                getFragmentManager().beginTransaction()
+                        .detach(HoldemFragment.this)
+                        .attach(HoldemFragment.this)
+                        .commit();
+            }
+        });
+
         return root;
     }
 
@@ -81,10 +95,10 @@ public class HoldemFragment extends Fragment {
         RecyclerView recyclerClubs = alertDialog.findViewById(R.id.clubs);
 
 
-        recyclerSpades.setLayoutManager(getLM(alertDialog));
-        recyclerDiamonds.setLayoutManager(getLM(alertDialog));
-        recyclerHearts.setLayoutManager(getLM(alertDialog));
-        recyclerClubs.setLayoutManager(getLM(alertDialog));
+        recyclerSpades.setLayoutManager(getLayoutManager(alertDialog));
+        recyclerDiamonds.setLayoutManager(getLayoutManager(alertDialog));
+        recyclerHearts.setLayoutManager(getLayoutManager(alertDialog));
+        recyclerClubs.setLayoutManager(getLayoutManager(alertDialog));
 
         List<Card> cardsC = DataUtil.getCards("c");
         List<Card> cardsH = DataUtil.getCards("h");
@@ -103,7 +117,7 @@ public class HoldemFragment extends Fragment {
 
     }
 
-    private RecyclerView.LayoutManager getLM(AlertDialog alertDialog) {
+    private RecyclerView.LayoutManager getLayoutManager(AlertDialog alertDialog) {
         RecyclerView.LayoutManager rvlm = new LinearLayoutManager(alertDialog.getContext(), LinearLayoutManager.HORIZONTAL, false);
         rvlm.scrollToPosition(Integer.MAX_VALUE / 2);
         return rvlm;
