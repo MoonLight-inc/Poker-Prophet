@@ -10,7 +10,7 @@ public class DataUtil {
     public static final ArrayList<String> ranks = new ArrayList<>(Arrays.asList("2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k", "a"));
     public static final ArrayList<String> suits = new ArrayList<>(Arrays.asList("c", "d", "s", "h"));
 
-
+    public static Integer adCounter = 5;
     public static ArrayList<String> ranks_c = ranks;
     public static ArrayList<String> ranks_d = ranks;
     public static ArrayList<String> ranks_s = ranks;

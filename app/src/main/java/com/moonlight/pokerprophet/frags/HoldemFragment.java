@@ -6,7 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,7 +32,9 @@ public class HoldemFragment extends Fragment {
     private MaterialCardView hand1, hand2, table1, table2, table3, table4, table5, clicked;
     private AlertDialog.Builder builder;
     private AlertDialog dial;
-    private Button reset;
+    private ImageButton reset;
+    private ImageButton back;
+    private TextView adCounter;
 
     public HoldemFragment() {
         // Required empty public constructor
@@ -52,7 +55,18 @@ public class HoldemFragment extends Fragment {
         table4 = root.findViewById(R.id.table4);
         table5 = root.findViewById(R.id.table5);
 
+        back = root.findViewById(R.id.back_btn);
+
         reset = root.findViewById(R.id.reset_btn);
+        adCounter = root.findViewById(R.id.adCounter);
+        adCounter.setText(DataUtil.adCounter.toString());
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -77,6 +91,13 @@ public class HoldemFragment extends Fragment {
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (DataUtil.adCounter == 1) {
+                    DataUtil.adCounter = 5;
+                    //TODO add AD
+                } else
+                    DataUtil.adCounter--;
+
                 DataUtil.reset();
                 getFragmentManager().beginTransaction()
                         .detach(HoldemFragment.this)
