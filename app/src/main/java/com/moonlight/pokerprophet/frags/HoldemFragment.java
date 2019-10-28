@@ -3,7 +3,9 @@ package com.moonlight.pokerprophet.frags;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.TransitionManager;
 
 import com.google.android.material.card.MaterialCardView;
 import com.moonlight.pokerprophet.Card;
@@ -36,7 +39,12 @@ public class HoldemFragment extends Fragment {
     private AlertDialog dial;
     private ImageButton reset;
     private ImageButton back;
-    private TextView adCounter;
+    private TextView adCounter, adviceTxt;
+    private Drawable bg;
+    private Handler delayRun = new Handler();
+
+
+    private MaterialCardView card1, card2, card3;
     private ArrayList<MaterialCardView> cards = new ArrayList<>();
 
     public HoldemFragment() {
@@ -57,19 +65,25 @@ public class HoldemFragment extends Fragment {
         cards.add(root.findViewById(R.id.table3));
         cards.add(root.findViewById(R.id.table4));
         cards.add(root.findViewById(R.id.table5));
+        card1 = root.findViewById(R.id.card1);
+        card2 = root.findViewById(R.id.card2);
+        card3 = root.findViewById(R.id.card3);
+        adviceTxt = root.findViewById(R.id.textView);
+        cards.get(0).getCardBackgroundColor();
+        TransitionManager.beginDelayedTransition(container);
 
-        back = root.findViewById(R.id.back_btn);
+//        back = root.findViewById(R.id.back_btn);
+//
+//        reset = root.findViewById(R.id.reset_btn);
+        //adCounter = root.findViewById(R.id.adCounter);
+        //adCounter.setText(DataUtil.adCounter.toString());
 
-        reset = root.findViewById(R.id.reset_btn);
-        adCounter = root.findViewById(R.id.adCounter);
-        adCounter.setText(DataUtil.adCounter.toString());
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().onBackPressed();
-            }
-        });
+//        back.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                getActivity().onBackPressed();
+//            }
+//        });
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -112,11 +126,28 @@ public class HoldemFragment extends Fragment {
                 alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
-                        if ((cards.get(0).getTag() != null) && (cards.get(1).getTag() != null))
-                            cards.subList(2, 7).forEach((c) -> {
-                                c.setClickable(true);
-                                c.setBackgroundColor(0x50FFFFFF);
-                            });
+                        if ((cards.get(0).getTag() != null) && (cards.get(1).getTag() != null)) {
+//                            cards.subList(2, 7).forEach((c) -> {
+//                                c.setClickable(true);
+//                                c.setBackgroundColor (0x50FFFFFF);
+//                            });
+                            TransitionManager.beginDelayedTransition(container);
+                            card2.setVisibility(View.VISIBLE);
+                            delayRun.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    adviceTxt.setText("РЕШАЙ САМ, Я ХЗ");
+                                }
+                            }, 500);
+                            delayRun.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    TransitionManager.beginDelayedTransition(container);
+                                    card1.setVisibility(View.VISIBLE);
+                                }
+                            }, 2000);
+
+                        }
                     }
                 });
 
@@ -125,31 +156,37 @@ public class HoldemFragment extends Fragment {
         };
 
         cards.forEach(c -> c.setOnClickListener(onClickListener));
-        cards.subList(2, 7).forEach((c) -> {
-            c.setClickable(false);
-            c.setBackgroundColor(0x10FFFFFF);
-        });
+//        cards.subList(2, 7).forEach((c) -> {
+//            c.setClickable(false);
+//            c.setBackgroundColor(0x10FFFFFF);
+//        });
 
 
-        reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (DataUtil.adCounter == 1) {
-                    DataUtil.adCounter = 5;
-                    //TODO add AD
-                } else
-                    DataUtil.adCounter--;
-                DataUtil.reset();
-                cards.clear();
-                getFragmentManager().beginTransaction()
-                        .detach(HoldemFragment.this)
-                        .attach(HoldemFragment.this)
-                        .commit();
-            }
-        });
+//        reset.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                if (DataUtil.adCounter == 1) {
+//                    DataUtil.adCounter = 5;
+//                    //TODO add AD
+//                } else
+//                    DataUtil.adCounter--;
+//                DataUtil.reset();
+//                cards.clear();
+//                getFragmentManager().beginTransaction()
+//                        .detach(HoldemFragment.this)
+//                        .attach(HoldemFragment.this)
+//                        .commit();
+//            }
+//        });
 
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        card3.setVisibility(View.VISIBLE);
     }
 
     private void initRecycler(AlertDialog alertDialog, MaterialCardView view) {

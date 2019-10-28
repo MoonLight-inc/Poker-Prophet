@@ -1,157 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/grad_bg"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".frags.HoldemFragment">
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card1"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="16dp"
-        android:baselineAligned="false"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/rules_btn">
-
-        <include
-            android:id="@+id/table1"
-            layout="@layout/card_holder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:rotation="40" />
-
-        <include
-            android:id="@+id/table2"
-            layout="@layout/card_holder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1" />
-
-        <include
-            android:id="@+id/table3"
-            layout="@layout/card_holder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1" />
-
-        <include
-            android:id="@+id/table4"
-            layout="@layout/card_holder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1" />
-
-        <include
-            android:id="@+id/table5"
-            layout="@layout/card_holder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:visibility="gone"
+        app:cardBackgroundColor="#C8C8C8"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="8dp">
 
-        android:layout_marginBottom="16dp"
-        android:baselineAligned="false"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:showDividers="middle|beginning|end|none"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:baselineAligned="false"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/rules_btn">
 
-        <include
-            android:id="@+id/hand1"
-            layout="@layout/card_holder"
-            android:layout_width="60dp"
-            android:layout_height="100dp"
-            android:layout_margin="10dp"
-            android:layout_weight="1" />
+            <include
+                android:id="@+id/table1"
+                layout="@layout/card_holder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:rotation="40" />
 
-        <include
-            android:id="@+id/hand2"
-            layout="@layout/card_holder"
-            android:layout_width="60dp"
-            android:layout_height="100dp"
-            android:layout_margin="10dp"
-            android:layout_weight="1" />
-    </LinearLayout>
+            <include
+                android:id="@+id/table2"
+                layout="@layout/card_holder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/rules_btn"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Help"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <include
+                android:id="@+id/table3"
+                layout="@layout/card_holder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1" />
 
-    <ImageButton
-        android:id="@+id/reset_btn"
-        android:layout_width="56dp"
-        android:layout_height="64dp"
-        android:layout_marginEnd="16dp"
-        android:background="#00FFFFFF"
-        android:scaleType="centerCrop"
-        android:src="@android:drawable/stat_notify_sync_noanim"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+            <include
+                android:id="@+id/table4"
+                layout="@layout/card_holder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1" />
 
+            <include
+                android:id="@+id/table5"
+                layout="@layout/card_holder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
-    <TextView
-        android:id="@+id/adCounter"
-        android:layout_width="56dp"
-        android:layout_height="64dp"
-        android:layout_marginEnd="16dp"
-        android:gravity="center"
-        android:text="5"
-        android:textColor="@android:color/white"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card2"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="8dp"
+        android:visibility="gone"
+        app:cardBackgroundColor="#C8C8C8"
+        app:layout_constraintTop_toBottomOf="@id/card1">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="0dp"
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/font"
+            android:gravity="center"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card3"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="TextView"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+        android:layout_margin="8dp"
+        android:visibility="gone"
+        app:cardBackgroundColor="#C8C8C8"
+        app:layout_constraintTop_toBottomOf="@id/card2"
+        tools:layout_editor_absoluteX="8dp">
 
-    <ImageButton
-        android:id="@+id/back_btn"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="#00FFFFFF"
-        android:scaleType="centerCrop"
-        android:src="@android:drawable/ic_menu_revert"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:layout_marginBottom="16dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:showDividers="middle|beginning|end|none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <include
+                android:id="@+id/hand1"
+                layout="@layout/card_holder"
+                android:layout_width="60dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1" />
+
+            <include
+                android:id="@+id/hand2"
+                layout="@layout/card_holder"
+                android:layout_width="60dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+</LinearLayout>
