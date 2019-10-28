@@ -2,6 +2,7 @@ package com.moonlight.pokerprophet.frags;
 
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.moonlight.pokerprophet.CustomAdapter;
 import com.moonlight.pokerprophet.DataUtil;
 import com.moonlight.pokerprophet.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,12 +31,13 @@ import java.util.List;
 public class HoldemFragment extends Fragment {
 
 
-    private MaterialCardView hand1, hand2, table1, table2, table3, table4, table5, clicked;
+    //private MaterialCardView hand1, hand2, table1, table2, table3, table4, table5, clicked;
     private AlertDialog.Builder builder;
     private AlertDialog dial;
     private ImageButton reset;
     private ImageButton back;
     private TextView adCounter;
+    private ArrayList<MaterialCardView> cards = new ArrayList<>();
 
     public HoldemFragment() {
         // Required empty public constructor
@@ -46,14 +49,14 @@ public class HoldemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_holdem, container, false);
-
-        hand1 = root.findViewById(R.id.hand1);
-        hand2 = root.findViewById(R.id.hand2);
-        table1 = root.findViewById(R.id.table1);
-        table2 = root.findViewById(R.id.table2);
-        table3 = root.findViewById(R.id.table3);
-        table4 = root.findViewById(R.id.table4);
-        table5 = root.findViewById(R.id.table5);
+        System.out.println("onCreateView, АЛО");
+        cards.add(root.findViewById(R.id.hand1));
+        cards.add(root.findViewById(R.id.hand2));
+        cards.add(root.findViewById(R.id.table1));
+        cards.add(root.findViewById(R.id.table2));
+        cards.add(root.findViewById(R.id.table3));
+        cards.add(root.findViewById(R.id.table4));
+        cards.add(root.findViewById(R.id.table5));
 
         back = root.findViewById(R.id.back_btn);
 
@@ -71,21 +74,61 @@ public class HoldemFragment extends Fragment {
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                DataUtil.ranks_c = new ArrayList<>(DataUtil.ranks);
+                DataUtil.ranks_h = new ArrayList<>(DataUtil.ranks);
+                DataUtil.ranks_s = new ArrayList<>(DataUtil.ranks);
+                DataUtil.ranks_d = new ArrayList<>(DataUtil.ranks);
+                DataUtil.cards_curr.clear();
+                cards.forEach(c -> {
+                    String tag = (String) c.getTag();
+                    if (tag != null)
+                        switch ("" + tag.charAt(tag.length() - 1)) {
+                            case "c":
+                                DataUtil.ranks_c.remove(tag.substring(0, tag.length() - 1));
+                                DataUtil.cards_curr.add(new Card("c", tag.substring(0, tag.length() - 1)));
+                                break;
+                            case "h":
+                                DataUtil.ranks_h.remove(tag.substring(0, tag.length() - 1));
+                                DataUtil.cards_curr.add(new Card("h", tag.substring(0, tag.length() - 1)));
+                                break;
+                            case "s":
+                                DataUtil.ranks_s.remove(tag.substring(0, tag.length() - 1));
+                                DataUtil.cards_curr.add(new Card("s", tag.substring(0, tag.length() - 1)));
+                                break;
+                            case "d":
+                                DataUtil.ranks_d.remove(tag.substring(0, tag.length() - 1));
+                                DataUtil.cards_curr.add(new Card("d", tag.substring(0, tag.length() - 1)));
+                                break;
+                        }
+                });
+
                 builder = new AlertDialog.Builder(root.getContext());
                 AlertDialog alertDialog = builder.setView(R.layout.alert_picker)
                         .show();
                 alertDialog.getWindow()
                         .setBackgroundDrawable(null);
+
+                //alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        if ((cards.get(0).getTag() != null) && (cards.get(1).getTag() != null))
+                            cards.subList(2, 7).forEach((c) -> {
+                                c.setClickable(true);
+                                c.setBackgroundColor(0x50FFFFFF);
+                            });
+                    }
+                });
+
                 initRecycler(alertDialog, (MaterialCardView) view);
             }
         };
-        hand1.setOnClickListener(onClickListener);
-        hand2.setOnClickListener(onClickListener);
-        table1.setOnClickListener(onClickListener);
-        table2.setOnClickListener(onClickListener);
-        table3.setOnClickListener(onClickListener);
-        table4.setOnClickListener(onClickListener);
-        table5.setOnClickListener(onClickListener);
+
+        cards.forEach(c -> c.setOnClickListener(onClickListener));
+        cards.subList(2, 7).forEach((c) -> {
+            c.setClickable(false);
+            c.setBackgroundColor(0x10FFFFFF);
+        });
 
 
         reset.setOnClickListener(new View.OnClickListener() {
@@ -97,8 +140,8 @@ public class HoldemFragment extends Fragment {
                     //TODO add AD
                 } else
                     DataUtil.adCounter--;
-
                 DataUtil.reset();
+                cards.clear();
                 getFragmentManager().beginTransaction()
                         .detach(HoldemFragment.this)
                         .attach(HoldemFragment.this)
@@ -143,6 +186,5 @@ public class HoldemFragment extends Fragment {
         rvlm.scrollToPosition(Integer.MAX_VALUE / 2);
         return rvlm;
     }
-
 
 }
