@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Poker Prophet</string>
-    <string name="holdem_str">Холдем</string>
-    <string name="omaha_str">Омаха</string>
+    <string name="holdem_str">Холдем\n--------&gt;</string>
+    <string name="omaha_str">Омаха\n&lt;--------</string>
 </resources>

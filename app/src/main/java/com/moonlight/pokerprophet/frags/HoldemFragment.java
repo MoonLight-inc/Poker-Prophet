@@ -136,7 +136,7 @@ public class HoldemFragment extends Fragment {
                             delayRun.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    adviceTxt.setText("РЕШАЙ САМ, Я ХЗ");
+                                    adviceTxt.setText("Я ХЗ, ДУМАЙ САМ");
                                 }
                             }, 500);
                             delayRun.postDelayed(new Runnable() {

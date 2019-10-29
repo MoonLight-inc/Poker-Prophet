@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/grad_bg"
+    android:background="@color/cardview_dark_background"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".frags.HoldemFragment">
-
+    <!--    android:background="@drawable/grad_bg"-->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card1"
         android:layout_width="match_parent"
@@ -35,16 +35,15 @@
                 layout="@layout/card_holder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:rotation="40" />
+                android:layout_margin="5dp"
+                android:layout_weight="1" />
 
             <include
                 android:id="@+id/table2"
                 layout="@layout/card_holder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:layout_weight="1" />
 
             <include
@@ -52,7 +51,7 @@
                 layout="@layout/card_holder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:layout_weight="1" />
 
             <include
@@ -60,7 +59,7 @@
                 layout="@layout/card_holder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:layout_weight="1" />
 
             <include
@@ -68,7 +67,7 @@
                 layout="@layout/card_holder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:layout_weight="1" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -112,13 +111,10 @@
             android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_gravity="center"
             android:layout_margin="8dp"
-            android:layout_marginBottom="16dp"
             android:baselineAligned="false"
             android:orientation="horizontal"
-            android:showDividers="middle|beginning|end|none"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -126,17 +122,17 @@
             <include
                 android:id="@+id/hand1"
                 layout="@layout/card_holder"
-                android:layout_width="60dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1" />
 
             <include
                 android:id="@+id/hand2"
                 layout="@layout/card_holder"
-                android:layout_width="60dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

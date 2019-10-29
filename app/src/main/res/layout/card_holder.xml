@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="60dp"
-        android:layout_height="100dp"
+        android:layout_height="99dp"
         android:layout_gravity="center"
         app:srcCompat="@android:drawable/btn_dialog" />
 
