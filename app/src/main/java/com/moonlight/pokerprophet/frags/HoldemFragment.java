@@ -3,6 +3,7 @@ package com.moonlight.pokerprophet.frags;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,9 +15,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
@@ -45,6 +48,7 @@ public class HoldemFragment extends Fragment {
     private Drawable bg;
     private Handler delayRun = new Handler();
     private LinearLayout linearLayout3;
+    private SwipeRefreshLayout swipe;
 
 
     private MaterialCardView card1, card2, card3;
@@ -71,11 +75,41 @@ public class HoldemFragment extends Fragment {
         card3 = root.findViewById(R.id.card3);
         adviceTxt = root.findViewById(R.id.textView);
         linearLayout3 = root.findViewById(R.id.linearLayout3);
+        swipe = root.findViewById(R.id.swipe);
 
         linearLayout3.setAlpha(0);
         cards.subList(5, 7).forEach((c) -> c.setVisibility(View.GONE));
         card3.setVisibility(View.VISIBLE);
 
+
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (card1.getVisibility() == View.VISIBLE) {
+                    card1.animate().alpha(0).x(-1000).setDuration(500).start();
+                    TransitionManager.beginDelayedTransition(container);
+                    card1.setVisibility(View.GONE);
+                }
+                if (card2.getVisibility() == View.VISIBLE) {
+                    card2.animate().alpha(0).x(1000).setDuration(500).start();
+                    TransitionManager.beginDelayedTransition(container);
+                    card2.setVisibility(View.GONE);
+                }
+
+                getFragmentManager().popBackStack();
+                if ((cards.get(0).getTag() != null) | (cards.get(1).getTag() != null))
+                    linearLayout3.animate().alpha(0).setDuration(500).withEndAction(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            Navigation.findNavController(root).navigate(R.id.holdemFragment);
+                            // TODO Navigation.findNavController(root).popBackStack();
+                        }
+                    }).start();
+
+
+            }
+        });
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,6 +176,17 @@ public class HoldemFragment extends Fragment {
                             if (cards.get(5).getTag() != null) {
                                 TransitionManager.beginDelayedTransition(container, new AutoTransition().setDuration(300));
                                 cards.get(6).setVisibility(View.VISIBLE);
+                            }
+                            if (cards.get(6).getTag() != null) {
+                                adviceTxt.animate().alpha(0).setDuration(1000).withEndAction(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        adviceTxt.setText("GAME OVER");
+                                        adviceTxt.setTextColor(Color.RED);
+
+                                        adviceTxt.animate().alpha(1).scaleY(2).scaleX(2).setDuration(1000).start();
+                                    }
+                                });
                             }
                         }
                         System.out.println(cards);
