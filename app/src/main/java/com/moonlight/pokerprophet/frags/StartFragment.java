@@ -3,16 +3,17 @@ package com.moonlight.pokerprophet.frags;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.google.android.material.card.MaterialCardView;
 import com.moonlight.pokerprophet.R;
 import com.moonlight.pokerprophet.listener.SwipeListner;
 
@@ -23,10 +24,10 @@ import com.moonlight.pokerprophet.listener.SwipeListner;
 public class StartFragment extends Fragment {
 
 
-    private Button omaha_btn;
-    private Button holdem_btn;
-    private CardView holdem_card;
-    private CardView omaha_card;
+    private TextView omaha_btn;
+    private TextView holdem_btn;
+    private MaterialCardView holdem_card;
+    private MaterialCardView omaha_card;
     public StartFragment() {
         // Required empty public constructor
     }
@@ -39,7 +40,7 @@ public class StartFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_start, container, false);
 
         omaha_btn = view.findViewById(R.id.omaha_btn);
-        omaha_btn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_startFragment_to_omahaFragment));
+
         //omaha_btn.setClickable(false);  //TODO
 
         omaha_card = view.findViewById(R.id.omaha_card);
@@ -47,31 +48,37 @@ public class StartFragment extends Fragment {
         holdem_card = view.findViewById(R.id.holdem_card);
         holdem_btn = view.findViewById(R.id.holdem_btn);
         //holdem_btn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_startFragment_to_holdemFragment));
-
+        holdem_btn.setClickable(false);
+        holdem_card.setClickable(false);
 
         view.setOnTouchListener(new SwipeListner(getContext()) {
             public void onSwipeRight() {
                 Toast.makeText(getContext(), "HOLDEM", Toast.LENGTH_SHORT).show();
-                holdem_btn.setPressed(true);
-                //holdem_btn.animate().x(500).setDuration(500).start();
-                omaha_card.animate().alpha(0).setDuration(200).start();
-                //holdem_card.animate().scaleX(2).scaleY(2).alpha(1).setDuration(200).start();
-                holdem_card.animate().scaleYBy(3).scaleXBy(3).alpha(0f).setDuration(400).start();
-                new Handler().postDelayed(new Runnable() {
+                TransitionManager.beginDelayedTransition(container);
+                omaha_card.setVisibility(View.GONE);
+                holdem_btn.animate().alpha(0).setDuration(1000).withEndAction(new Runnable() {
                     @Override
                     public void run() {
                         Navigation.findNavController(view).navigate(R.id.action_startFragment_to_holdemFragment);
                     }
-                }, 400);
+                }).start();
+                //holdem_btn.animate().alpha(0)..start();
+                //holdem_card.animate().scaleX(2).scaleY(2).alpha(1).setDuration(200).start();
+                //holdem_card.animate().scaleYBy(6).scaleXBy(3).alpha(0f).setDuration(400).start();
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Navigation.findNavController(view).navigate(R.id.action_startFragment_to_holdemFragment);
+//                    }
+//                }, 1000);
 
             }
 
             public void onSwipeLeft() {
                 Toast.makeText(getContext(), "OMAHA SOON", Toast.LENGTH_SHORT).show();
-                omaha_btn.setPressed(true);
-                //holdem_btn.animate().x(500).setDuration(500).start();
+                //omaha_btn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_startFragment_to_omahaFragment));
+
                 holdem_card.animate().alpha(0).setDuration(200).start();
-                //holdem_card.animate().scaleX(2).scaleY(2).alpha(1).setDuration(200).start();
                 omaha_card.animate().scaleYBy(3).scaleXBy(3).alpha(0f).setDuration(400).start();
                 new Handler().postDelayed(new Runnable() {
                     @Override

@@ -15,13 +15,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:visibility="gone"
-        app:cardBackgroundColor="#C8C8C8"
+        app:cardBackgroundColor="@color/card"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="8dp">
 
         <LinearLayout
-            android:id="@+id/linearLayout3"
-            android:layout_width="match_parent"
+            android:id="@+id/linearLayout1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="8dp"
@@ -78,7 +78,7 @@
         android:layout_height="100dp"
         android:layout_margin="8dp"
         android:visibility="gone"
-        app:cardBackgroundColor="#C8C8C8"
+        app:cardBackgroundColor="@color/card"
         app:layout_constraintTop_toBottomOf="@id/card1">
 
         <TextView
@@ -103,12 +103,12 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:visibility="gone"
-        app:cardBackgroundColor="#C8C8C8"
+        app:cardBackgroundColor="@color/card"
         app:layout_constraintTop_toBottomOf="@id/card2"
         tools:layout_editor_absoluteX="8dp">
 
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/linearLayout3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

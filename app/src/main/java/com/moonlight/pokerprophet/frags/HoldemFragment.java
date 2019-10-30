@@ -10,12 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
 import com.google.android.material.card.MaterialCardView;
@@ -42,6 +44,7 @@ public class HoldemFragment extends Fragment {
     private TextView adCounter, adviceTxt;
     private Drawable bg;
     private Handler delayRun = new Handler();
+    private LinearLayout linearLayout3;
 
 
     private MaterialCardView card1, card2, card3;
@@ -50,8 +53,6 @@ public class HoldemFragment extends Fragment {
     public HoldemFragment() {
         // Required empty public constructor
     }
-
-    //private View root;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,21 +70,11 @@ public class HoldemFragment extends Fragment {
         card2 = root.findViewById(R.id.card2);
         card3 = root.findViewById(R.id.card3);
         adviceTxt = root.findViewById(R.id.textView);
-        cards.get(0).getCardBackgroundColor();
-        TransitionManager.beginDelayedTransition(container);
+        linearLayout3 = root.findViewById(R.id.linearLayout3);
 
-//        back = root.findViewById(R.id.back_btn);
-//
-//        reset = root.findViewById(R.id.reset_btn);
-        //adCounter = root.findViewById(R.id.adCounter);
-        //adCounter.setText(DataUtil.adCounter.toString());
-
-//        back.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                getActivity().onBackPressed();
-//            }
-//        });
+        linearLayout3.setAlpha(0);
+        cards.subList(5, 7).forEach((c) -> c.setVisibility(View.GONE));
+        card3.setVisibility(View.VISIBLE);
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -126,11 +117,7 @@ public class HoldemFragment extends Fragment {
                 alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
-                        if ((cards.get(0).getTag() != null) && (cards.get(1).getTag() != null)) {
-//                            cards.subList(2, 7).forEach((c) -> {
-//                                c.setClickable(true);
-//                                c.setBackgroundColor (0x50FFFFFF);
-//                            });
+                        if ((cards.get(0).getTag() != null) && (cards.get(1).getTag() != null) && (card2.getVisibility() != View.VISIBLE)) {
                             TransitionManager.beginDelayedTransition(container);
                             card2.setVisibility(View.VISIBLE);
                             delayRun.postDelayed(new Runnable() {
@@ -142,51 +129,36 @@ public class HoldemFragment extends Fragment {
                             delayRun.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    TransitionManager.beginDelayedTransition(container);
+                                    TransitionManager.beginDelayedTransition(container, new AutoTransition().setDuration(300));
                                     card1.setVisibility(View.VISIBLE);
                                 }
-                            }, 2000);
-
+                            }, 1400);
                         }
+                        if (card2.getVisibility() == View.VISIBLE) {
+                            if ((cards.get(2).getTag() != null) && (cards.get(3).getTag() != null) && (cards.get(4).getTag() != null)) {
+                                TransitionManager.beginDelayedTransition(container, new AutoTransition().setDuration(300));
+                                cards.get(5).setVisibility(View.VISIBLE);
+                            }
+                            if (cards.get(5).getTag() != null) {
+                                TransitionManager.beginDelayedTransition(container, new AutoTransition().setDuration(300));
+                                cards.get(6).setVisibility(View.VISIBLE);
+                            }
+                        }
+                        System.out.println(cards);
                     }
                 });
-
                 initRecycler(alertDialog, (MaterialCardView) view);
             }
         };
 
         cards.forEach(c -> c.setOnClickListener(onClickListener));
-//        cards.subList(2, 7).forEach((c) -> {
-//            c.setClickable(false);
-//            c.setBackgroundColor(0x10FFFFFF);
-//        });
-
-
-//        reset.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                if (DataUtil.adCounter == 1) {
-//                    DataUtil.adCounter = 5;
-//                    //TODO add AD
-//                } else
-//                    DataUtil.adCounter--;
-//                DataUtil.reset();
-//                cards.clear();
-//                getFragmentManager().beginTransaction()
-//                        .detach(HoldemFragment.this)
-//                        .attach(HoldemFragment.this)
-//                        .commit();
-//            }
-//        });
-
         return root;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        card3.setVisibility(View.VISIBLE);
+    public void onStart() {
+        super.onStart();
+        linearLayout3.animate().alpha(1).setStartDelay(200).setDuration(1000).start();
     }
 
     private void initRecycler(AlertDialog alertDialog, MaterialCardView view) {
