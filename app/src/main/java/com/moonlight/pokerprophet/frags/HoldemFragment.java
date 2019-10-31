@@ -4,17 +4,20 @@ package com.moonlight.pokerprophet.frags;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
@@ -41,28 +44,27 @@ public class HoldemFragment extends Fragment {
 
     //private MaterialCardView hand1, hand2, table1, table2, table3, table4, table5, clicked;
     private AlertDialog.Builder builder;
-    private AlertDialog dial;
-    private ImageButton reset;
-    private ImageButton back;
-    private TextView adCounter, adviceTxt;
-    private Drawable bg;
+    View root;
     private Handler delayRun = new Handler();
     private LinearLayout linearLayout3;
     private SwipeRefreshLayout swipe;
-
-
+    private TextView adviceTxt;
+    private NavController navController;
     private MaterialCardView card1, card2, card3;
     private ArrayList<MaterialCardView> cards = new ArrayList<>();
 
     public HoldemFragment() {
-        // Required empty public constructor
+        setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_holdem, container, false);
-        System.out.println("onCreateView, АЛО");
+        root = inflater.inflate(R.layout.fragment_holdem, container, false);
+//        if (getArguments()!=null)
+//            getFragmentManager().popBackStack();
+
+
         cards.add(root.findViewById(R.id.hand1));
         cards.add(root.findViewById(R.id.hand2));
         cards.add(root.findViewById(R.id.table1));
@@ -76,6 +78,7 @@ public class HoldemFragment extends Fragment {
         adviceTxt = root.findViewById(R.id.textView);
         linearLayout3 = root.findViewById(R.id.linearLayout3);
         swipe = root.findViewById(R.id.swipe);
+
 
         linearLayout3.setAlpha(0);
         cards.subList(5, 7).forEach((c) -> c.setVisibility(View.GONE));
@@ -96,16 +99,17 @@ public class HoldemFragment extends Fragment {
                     card2.setVisibility(View.GONE);
                 }
 
-                getFragmentManager().popBackStack();
                 if ((cards.get(0).getTag() != null) | (cards.get(1).getTag() != null))
                     linearLayout3.animate().alpha(0).setDuration(500).withEndAction(new Runnable() {
                         @Override
                         public void run() {
-
-                            Navigation.findNavController(root).navigate(R.id.holdemFragment);
-                            // TODO Navigation.findNavController(root).popBackStack();
+                            Bundle bundle = new Bundle();
+                            bundle.putBoolean("ref", true);
+                            Navigation.findNavController(root).navigate(R.id.holdemFragment, bundle);
                         }
                     }).start();
+                else
+                    swipe.setRefreshing(false);
 
 
             }
@@ -241,4 +245,26 @@ public class HoldemFragment extends Fragment {
         return rvlm;
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.menu_help, menu);
+        inflater.inflate(R.menu.menu_share, menu);
+        inflater.inflate(R.menu.menu_settings, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+
+        switch ("" + item.getTitle()) {
+            case "Help":
+                Navigation.findNavController(root).navigate(R.id.action_holdemFragment_to_rulesFragment);
+                break;
+            case ("Settings"):
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
