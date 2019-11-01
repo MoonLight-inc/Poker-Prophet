@@ -2,6 +2,4 @@
     <string name="app_name">Poker Prophet</string>
     <string name="holdem_str">Холдем\n--------&gt;</string>
     <string name="omaha_str">Омаха\n&lt;--------</string>
-    <string name="open_str">ОТКРЫТО</string>
-    <string name="close_str">ЗАКРЫТО</string>
 </resources>
