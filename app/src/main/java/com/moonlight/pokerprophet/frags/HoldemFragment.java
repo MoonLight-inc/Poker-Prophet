@@ -26,6 +26,7 @@ import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.moonlight.pokerprophet.Card;
 import com.moonlight.pokerprophet.CustomAdapter;
 import com.moonlight.pokerprophet.DataUtil;
@@ -46,13 +47,14 @@ public class HoldemFragment extends Fragment {
     private AlertDialog.Builder builder;
     private AlertDialog dial;
     private ImageButton reset;
-    private ImageButton back;
+    FloatingActionButton fab;
     private TextView adCounter, adviceTxt;
     private Drawable bg;
     private Handler delayRun = new Handler();
     private LinearLayout linearLayout3;
     private SwipeRefreshLayout swipe;
     TextView stage;
+    private ImageButton back, info, share;
 
 
     private MaterialCardView card1, card2, card3;
@@ -77,6 +79,12 @@ public class HoldemFragment extends Fragment {
         card1 = root.findViewById(R.id.card1);
         card2 = root.findViewById(R.id.card2);
         card3 = root.findViewById(R.id.card3);
+
+        back = root.findViewById(R.id.back_btn);
+        share = root.findViewById(R.id.share_btn);
+        info = root.findViewById(R.id.info_btn);
+
+        fab = root.findViewById(R.id.fab);
         adviceTxt = root.findViewById(R.id.textView);
         linearLayout3 = root.findViewById(R.id.linearLayout3);
         stage = root.findViewById(R.id.stage);
@@ -86,6 +94,33 @@ public class HoldemFragment extends Fragment {
         cards.subList(5, 7).forEach((c) -> c.setVisibility(View.GONE));
         card3.setVisibility(View.VISIBLE);
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(root).navigate(R.id.action_holdemFragment_to_rulesFragment);
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().popBackStack();
+            }
+        });
+
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO Share anim
+            }
+        });
+
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO Info dialog
+            }
+        });
 
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
