@@ -2,4 +2,8 @@
     <string name="app_name">Poker Prophet</string>
     <string name="holdem_str">Холдем\n--------&gt;</string>
     <string name="omaha_str">Омаха\n&lt;--------</string>
+    <string name="stage0">Pre-flop</string>
+    <string name="stage1">Flop</string>
+    <string name="stage2">Turn</string>
+    <string name="stage3">River</string>
 </resources>

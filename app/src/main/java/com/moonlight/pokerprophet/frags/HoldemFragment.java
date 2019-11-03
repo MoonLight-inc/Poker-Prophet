@@ -4,6 +4,7 @@ package com.moonlight.pokerprophet.frags;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -39,6 +41,7 @@ import java.util.List;
 public class HoldemFragment extends Fragment {
 
 
+    private static final int MAX_STAGE = 4;
     //private MaterialCardView hand1, hand2, table1, table2, table3, table4, table5, clicked;
     private AlertDialog.Builder builder;
     private AlertDialog dial;
@@ -49,11 +52,12 @@ public class HoldemFragment extends Fragment {
     private Handler delayRun = new Handler();
     private LinearLayout linearLayout3;
     private SwipeRefreshLayout swipe;
+    TextView stage;
 
 
     private MaterialCardView card1, card2, card3;
     private ArrayList<MaterialCardView> cards = new ArrayList<>();
-
+    View root;
     public HoldemFragment() {
         // Required empty public constructor
     }
@@ -61,7 +65,7 @@ public class HoldemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_holdem, container, false);
+        root = inflater.inflate(R.layout.fragment_holdem, container, false);
         System.out.println("onCreateView, АЛО");
         cards.add(root.findViewById(R.id.hand1));
         cards.add(root.findViewById(R.id.hand2));
@@ -75,8 +79,9 @@ public class HoldemFragment extends Fragment {
         card3 = root.findViewById(R.id.card3);
         adviceTxt = root.findViewById(R.id.textView);
         linearLayout3 = root.findViewById(R.id.linearLayout3);
+        stage = root.findViewById(R.id.stage);
         swipe = root.findViewById(R.id.swipe);
-
+        bottomProgressDots(1);
         linearLayout3.setAlpha(0);
         cards.subList(5, 7).forEach((c) -> c.setVisibility(View.GONE));
         card3.setVisibility(View.VISIBLE);
@@ -86,28 +91,15 @@ public class HoldemFragment extends Fragment {
             @Override
             public void onRefresh() {
                 if (card1.getVisibility() == View.VISIBLE) {
-                    card1.animate().alpha(0).x(-1000).setDuration(500).start();
                     TransitionManager.beginDelayedTransition(container);
                     card1.setVisibility(View.GONE);
                 }
                 if (card2.getVisibility() == View.VISIBLE) {
-                    card2.animate().alpha(0).x(1000).setDuration(500).start();
                     TransitionManager.beginDelayedTransition(container);
                     card2.setVisibility(View.GONE);
                 }
-
-                getFragmentManager().popBackStack();
-                if ((cards.get(0).getTag() != null) | (cards.get(1).getTag() != null))
-                    linearLayout3.animate().alpha(0).setDuration(500).withEndAction(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            Navigation.findNavController(root).navigate(R.id.holdemFragment);
-                            // TODO Navigation.findNavController(root).popBackStack();
-                        }
-                    }).start();
-
-
+                cards.forEach(c -> ((ImageView) c.getChildAt(0)).setImageResource(R.drawable.question));
+                bottomProgressDots(1);
             }
         });
         View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -154,6 +146,7 @@ public class HoldemFragment extends Fragment {
                         if ((cards.get(0).getTag() != null) && (cards.get(1).getTag() != null) && (card2.getVisibility() != View.VISIBLE)) {
                             TransitionManager.beginDelayedTransition(container);
                             card2.setVisibility(View.VISIBLE);
+                            bottomProgressDots(2);
                             delayRun.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -172,10 +165,12 @@ public class HoldemFragment extends Fragment {
                             if ((cards.get(2).getTag() != null) && (cards.get(3).getTag() != null) && (cards.get(4).getTag() != null)) {
                                 TransitionManager.beginDelayedTransition(container, new AutoTransition().setDuration(300));
                                 cards.get(5).setVisibility(View.VISIBLE);
+                                bottomProgressDots(3);
                             }
                             if (cards.get(5).getTag() != null) {
                                 TransitionManager.beginDelayedTransition(container, new AutoTransition().setDuration(300));
                                 cards.get(6).setVisibility(View.VISIBLE);
+                                bottomProgressDots(4);
                             }
                             if (cards.get(6).getTag() != null) {
                                 adviceTxt.animate().alpha(0).setDuration(1000).withEndAction(new Runnable() {
@@ -239,6 +234,55 @@ public class HoldemFragment extends Fragment {
         RecyclerView.LayoutManager rvlm = new LinearLayoutManager(alertDialog.getContext(), LinearLayoutManager.HORIZONTAL, false);
         rvlm.scrollToPosition(Integer.MAX_VALUE / 2);
         return rvlm;
+    }
+
+
+    private void bottomProgressDots(int current_index) {
+        current_index--;
+        LinearLayout dotsLayout = root.findViewById(R.id.layoutDots);
+        ImageView[] dots = new ImageView[MAX_STAGE];
+        dotsLayout.removeAllViews();
+        for (int i = 0; i < dots.length; i++) {
+            dots[i] = new ImageView(getContext());
+            int width_height = 30;
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(width_height, width_height));
+            params.setMargins(10, 10, 10, 10);
+            dots[i].setLayoutParams(params);
+            dots[i].setImageResource(R.drawable.shape_circle);
+            dots[i].setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
+            dotsLayout.addView(dots[i]);
+        }
+
+        if (dots.length > 0) {
+            dots[current_index].setImageResource(R.drawable.shape_circle);
+            dots[current_index].setColorFilter(R.color.colorPrimary, PorterDuff.Mode.DST);
+        }
+
+        switch (current_index) {
+            case 0:
+                setAnimText(stage, R.string.stage0);
+                break;
+            case 1:
+                setAnimText(stage, R.string.stage1);
+                break;
+            case 2:
+                setAnimText(stage, R.string.stage2);
+                break;
+            case 3:
+                setAnimText(stage, R.string.stage3);
+                break;
+        }
+    }
+
+
+    private void setAnimText(TextView text, Integer stringRes) {
+        text.animate().alpha(0).setDuration(300).withEndAction(new Runnable() {
+            @Override
+            public void run() {
+                text.setText(stringRes);
+                text.animate().alpha(1).setDuration(300).start();
+            }
+        }).start();
     }
 
 }

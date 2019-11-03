@@ -13,6 +13,6 @@
         android:layout_height="98dp"
         android:adjustViewBounds="true"
         android:layout_gravity="center"
-        app:srcCompat="@android:drawable/btn_dialog" />
+        app:srcCompat="@drawable/question" />
 
 </com.google.android.material.card.MaterialCardView>
