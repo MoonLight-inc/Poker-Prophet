@@ -23,6 +23,7 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     MaterialCardView clicked;
     AlertDialog alertDialog;
 
+
     public CustomAdapter(List<Card> cards, AlertDialog alertDialog, MaterialCardView clicked) {
         this.cards_const = cards;
         this.context = alertDialog.getContext();
@@ -42,12 +43,10 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ImageHolder img = (ImageHolder) holder;
+        ImageView img = ((ImageHolder) holder).imageView;
         String cardId = "img_" + cards.get(position % cards.size()).getRank() + cards.get(position % cards.size()).getSuit();
-        img.imageView.setImageResource(context.getResources().getIdentifier(cardId, "drawable", context.getPackageName()));
-        img.imageView.setTag(cardId.subSequence(4, cardId.length()));
-        //System.out.println(cardId.subSequence(4, cardId.length()));
-
+        img.setImageResource(context.getResources().getIdentifier(cardId, "drawable", context.getPackageName()));
+        img.setTag(cardId.subSequence(4, cardId.length()));
     }
 
     @Override

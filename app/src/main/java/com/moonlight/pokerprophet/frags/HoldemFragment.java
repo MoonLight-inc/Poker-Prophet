@@ -47,13 +47,13 @@ public class HoldemFragment extends Fragment {
     private AlertDialog.Builder builder;
     private AlertDialog dial;
     private ImageButton reset;
-    FloatingActionButton fab;
+    private FloatingActionButton fab;
     private TextView adCounter, adviceTxt;
     private Drawable bg;
     private Handler delayRun = new Handler();
     private LinearLayout linearLayout3;
     private SwipeRefreshLayout swipe;
-    TextView stage;
+    private TextView stage;
     private ImageButton back, info, share;
 
 
@@ -68,7 +68,26 @@ public class HoldemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_holdem, container, false);
-        System.out.println("onCreateView, АЛО");
+        int count = 0;
+        for (int i = 0; i < 3; i++)
+            for (int j = i + 1; j < 4; j++)
+                for (int k = j + 1; k < 5; k++) {
+                    System.out.println("" + i + j + k);
+                    count++;
+                }
+        System.out.println("VARIANTOV === " + count);
+
+
+        count = 0;
+        for (int n = 0; n < 2; n++)
+            for (int i = n + 1; i < 3; i++)
+                for (int j = i + 1; j < 4; j++)
+                    for (int k = j + 1; k < 5; k++) {
+                        System.out.println("" + n + i + j + k);
+                        count++;
+                    }
+        System.out.println("VARIANTOV === " + count);
+
         cards.add(root.findViewById(R.id.hand1));
         cards.add(root.findViewById(R.id.hand2));
         cards.add(root.findViewById(R.id.table1));
@@ -104,7 +123,9 @@ public class HoldemFragment extends Fragment {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getFragmentManager().popBackStack();
+
+                DataUtil.reset();
+                Navigation.findNavController(root).popBackStack();
             }
         });
 
@@ -135,6 +156,12 @@ public class HoldemFragment extends Fragment {
                 }
                 cards.forEach(c -> ((ImageView) c.getChildAt(0)).setImageResource(R.drawable.question));
                 bottomProgressDots(1);
+                DataUtil.reset();
+                cards.forEach(c -> c.setTag(null));
+                if (adviceTxt.getText().equals("GAME OVER"))
+                    adviceTxt.animate().scaleX(1f).scaleY(1f).start();
+                swipe.setRefreshing(false);
+
             }
         });
         View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -179,13 +206,17 @@ public class HoldemFragment extends Fragment {
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
                         if ((cards.get(0).getTag() != null) && (cards.get(1).getTag() != null) && (card2.getVisibility() != View.VISIBLE)) {
+                            swipe.setEnabled(false);
                             TransitionManager.beginDelayedTransition(container);
                             card2.setVisibility(View.VISIBLE);
                             bottomProgressDots(2);
                             delayRun.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    adviceTxt.setText("Я ХЗ, ДУМАЙ САМ");
+
+                                    adviceTxt.setTextColor(Color.DKGRAY);
+                                    adviceTxt.setText(DataUtil.prophet());
+
                                 }
                             }, 500);
                             delayRun.postDelayed(new Runnable() {
@@ -193,6 +224,7 @@ public class HoldemFragment extends Fragment {
                                 public void run() {
                                     TransitionManager.beginDelayedTransition(container, new AutoTransition().setDuration(300));
                                     card1.setVisibility(View.VISIBLE);
+                                    swipe.setEnabled(true);
                                 }
                             }, 1400);
                         }
@@ -211,7 +243,7 @@ public class HoldemFragment extends Fragment {
                                 adviceTxt.animate().alpha(0).setDuration(1000).withEndAction(new Runnable() {
                                     @Override
                                     public void run() {
-                                        adviceTxt.setText("GAME OVER");
+                                        adviceTxt.setText(DataUtil.prophet());
                                         adviceTxt.setTextColor(Color.RED);
 
                                         adviceTxt.animate().alpha(1).scaleY(2).scaleX(2).setDuration(1000).start();

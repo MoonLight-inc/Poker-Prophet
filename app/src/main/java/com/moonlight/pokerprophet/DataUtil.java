@@ -46,8 +46,58 @@ public class DataUtil {
                 ranks_h.forEach(r -> cards.add(new Card(suit, r)));
                 break;
         }
+
         //ranks.forEach(r -> cards.add(new Card(suit, r)));
         return cards;
     }
 
+    public static String prophet() {
+        Card card1, card2, card3, card4, card5, card6, card7;
+        switch (cards_curr.size()) {
+            case 2:
+                card1 = cards_curr.get(0);
+                card2 = cards_curr.get(1);
+                if (pair(card1, card2) && (top10(card1)))
+                    return "Perfect start";
+                if (top10(card1) && (top10(card2)))
+                    return "Good start";
+                if (norm2(card1, card2))
+                    return "Maybe...";
+                return "No, no, no...";
+            case 5:
+
+                break;
+            case 6:
+
+                break;
+            case 7:
+                card1 = cards_curr.get(0);
+                card2 = cards_curr.get(1);
+                card3 = cards_curr.get(2);
+                card4 = cards_curr.get(3);
+                card5 = cards_curr.get(4);
+                card6 = cards_curr.get(5);
+                card7 = cards_curr.get(6);
+
+                break;
+            default:
+                System.out.println("ERRRRRRRROOOOORRRRRR ====== " + cards_curr.size());
+        }
+        return "GAME OVER";
+    }
+
+
+    private static boolean pair(Card card1, Card card2) {
+        return card1.getRank().equals(card2.getRank());
+    }
+
+    private static boolean top10(Card card) {
+        return ranks.indexOf(card.getRank()) > 10;
+    }
+
+    private static boolean norm2(Card card1, Card card2) {
+        return (card1.getSuit().equals(card2.getSuit())) ||
+                (ranks.indexOf(card1.getRank()) - ranks.indexOf(card2.getRank()) < 5) ||
+                ((card1.getRank().equals("a")) && (ranks.indexOf(card2) < 4));
+    }
 }
