@@ -1,9 +1,29 @@
 <resources>
     <string name="app_name">Poker Prophet</string>
-    <string name="holdem_str">Холдем\n--------&gt;</string>
-    <string name="omaha_str">Омаха\n&lt;--------</string>
+    <string name="holdem_str">Hold\'em</string>
+    <string name="omaha_str">Omaha</string>
     <string name="stage0">Pre-flop</string>
     <string name="stage1">Flop</string>
     <string name="stage2">Turn</string>
     <string name="stage3">River</string>
+    <string name="stage0text">At the start of the game
+When playing Texas HoldEm poker, every player is dealt two cards face down – these are called your \'hole cards\'.
+        Then there is a round of betting where you can Check, Bet or Fold. This stage of the game is known as pre-flop and what you should do
+        is dependent on those hole cards, or starting hand. If you are unsure about the value of different poker hand combinations it may be worthwhile
+        checking out our poker hand rankings page.</string>
+    <string name="stage1text">When all the betting has finished three shared cards are dealt face up in the middle of the table. This is called the flop</string>
+    <string name="stage2text">After this there is another round of betting, then a fourth shared card – called the turn – is dealt.</string>
+    <string name="stage3text">There is another round of betting then a final shared card – called the river – and a final round of betting.</string>
+    <string name="combo1">Royal flush</string>
+    <string name="combo2">Straight flush</string>
+    <string name="combo3">Four of a kind</string>
+    <string name="combo4">Full house</string>
+    <string name="combo5">Flush</string>
+    <string name="combo6">Straight</string>
+    <string name="combo7">Three of a kind</string>
+    <string name="combo8">Two pairs</string>
+    <string name="combo9">Pair</string>
+    <string name="combo10">High card</string>
+    <string name="combo"></string>
+
 </resources>

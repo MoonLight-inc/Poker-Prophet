@@ -5,4 +5,5 @@
     <color name="colorAccent">#D81B60</color>
     <color name="background">#000</color>
     <color name="card">#c8c8c8</color>
+    <color name="collapse">#60000000</color>
 </resources>
