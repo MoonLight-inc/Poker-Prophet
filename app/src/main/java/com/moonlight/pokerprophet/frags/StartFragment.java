@@ -18,9 +18,6 @@ import com.moonlight.pokerprophet.R;
 import com.moonlight.pokerprophet.listener.SwipeListner;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class StartFragment extends Fragment {
 
 

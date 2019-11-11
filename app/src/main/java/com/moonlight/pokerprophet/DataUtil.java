@@ -57,7 +57,7 @@ public class DataUtil {
             case 2:
                 card1 = cards_curr.get(0);
                 card2 = cards_curr.get(1);
-                if (pair(card1, card2) && (top10(card1)))
+                if ((pair(card1, card2) && (top10(card1))) || ((top10(card1) && top10(card2)) && norm2(card1, card2)))
                     return "Perfect start";
                 if (top10(card1) && (top10(card2)))
                     return "Good start";
