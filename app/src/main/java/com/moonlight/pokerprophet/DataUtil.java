@@ -1,5 +1,7 @@
 package com.moonlight.pokerprophet;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +18,7 @@ public class DataUtil {
     public static ArrayList<String> ranks_h = new ArrayList<>(ranks);
     public static ArrayList<String> ranks_t = new ArrayList<>(), suits_t = new ArrayList<>();
     public static ArrayList<Card> cards_curr;
-
+    public static String tag = "debug tag";
     //TODO Combo
     static {
         reset();
@@ -52,67 +54,78 @@ public class DataUtil {
     }
 
 
-    public static String prophet() {
+    public static Integer prophet() {
         Card card1, card2, card3, card4, card5, card6, card7;
         ArrayList<Card> arr = null;
+        System.out.println("Prophet called. Array size = " + cards_curr.size());
+        int k;
         switch (cards_curr.size()) {
             case 2:
                 card1 = cards_curr.get(0);
                 card2 = cards_curr.get(1);
                 if ((pair(card1, card2) && (top10(card1))) || ((top10(card1) && top10(card2)) && norm2(card1, card2)))
-                    return "Perfect start";
+                    return 1;
                 if (top10(card1) && (top10(card2)))
-                    return "Good start";
+                    return 2;
                 if (norm2(card1, card2))
-                    return "Maybe...";
-                return "No, no, no...";
+                    return 3;
+                return 4;
             case 5:
                 return check(cards_curr);
             case 6:
-
+                k = 15;
                 for (Card card : cards_curr) {
                     arr = new ArrayList<>(cards_curr);
                     arr.remove(card);
-
+                    int c = check(arr);
+                    if (k > c) k = c;
                     System.out.println(check(arr));
                 }
-                return check(arr);
+                return k;
             case 7:
+                k = 15;
                 for (Card c1 : cards_curr) {
                     for (Card c2 : cards_curr)
                         if (!c1.equals(c2)) {
                             arr = new ArrayList<>(cards_curr);
                             arr.remove(c1);
                             arr.remove(c2);
-                            //check(arr);
+                            int c = check(arr);
+                            if (k > c) k = c;
                             System.out.println(check(arr));
                         }
-                    return check(arr);
+                    return k;
 
 
                 }
             default:
-                return "GAME OVER";
+                return null;
         }
     }
 
     private static boolean checkFlash(ArrayList<Card> arr) {
-        for (int i = 1; i < arr.size() - 1; i++)
+        Log.wtf(tag, "Flush " + arr);
+        for (int i = 1; i < arr.size() - 1; i++) {
+            Log.wtf(tag, arr.get(0).getSuit() + " == " + arr.get(i).getSuit() + " == !" + !arr.get(0).getSuit().equals(arr.get(i).getSuit()));
             if (!arr.get(0).getSuit().equals(arr.get(i).getSuit()))
                 return false;
+        }
         return true;
     }
 
     private static boolean checkStr(ArrayList<Card> arr) {
         ArrayList<String> ranks_curr = new ArrayList<>();
         arr.forEach(card -> ranks_curr.add(card.getRank()));
-        for (int i = 1; i < ranks.size() - 5; i++)
-            if (ranks_curr.containsAll(ranks.subList(i, i + 4)))
+        for (int i = 0; i < ranks.size() - 4; i++) {
+            Log.wtf(tag, "Str " + arr + " [contains]  " + ranks.subList(i, i + 5) + " == " + ranks_curr.containsAll(ranks.subList(i, i + 5)));
+            if (ranks_curr.containsAll(ranks.subList(i, i + 5)))
                 return true;
+        }
         return false;
     }
 
     private static boolean pair(Card card1, Card card2) {
+        Log.wtf(tag, "Pair " + card1.toString().toUpperCase() + " " + card2.toString().toUpperCase() + " == " + card1.getRank().equals(card2.getRank()));
         return card1.getRank().equals(card2.getRank());
     }
 
@@ -121,9 +134,9 @@ public class DataUtil {
     }
 
     private static boolean norm2(Card card1, Card card2) {
-        return (card1.getSuit().equals(card2.getSuit())) ||
+        return (card1.getSuit().contains(card2.getSuit())) ||
                 (ranks.indexOf(card1.getRank()) - ranks.indexOf(card2.getRank()) < 5) ||
-                ((card1.getRank().equals("a")) && (ranks.indexOf(card2) < 4));
+                ((card1.getRank().contains("a")) && (ranks.indexOf(card2) < 4));
     }
 
     private static Integer highCard(ArrayList<Card> arr) {
@@ -137,6 +150,7 @@ public class DataUtil {
         int max = 0;
         int maxi = 0;
         int n = 1;
+
         for (int i = 0; i < arr.size(); i++) {
             n = 1;
             for (int j = 0; j < arr.size(); j++)
@@ -147,6 +161,7 @@ public class DataUtil {
                 maxi = i;
             }
         }
+        Log.wtf(tag, "CheckMax max = " + max + "  maxi = " + maxi + "   N = " + n + "  ARR == " + arr + " " + re);
         if (n == 3) {
             String setrank = arr.get(maxi).getRank();
             arr.removeIf(card -> card.getRank().equals(setrank));
@@ -163,30 +178,32 @@ public class DataUtil {
         return n;
     }
 
-    private static String check(ArrayList<Card> arr) {
+    private static Integer check(ArrayList<Card> arr) {
+        Log.wtf(tag, "<CHECK> ===========================================================");
+        Log.wtf(tag, "Array = " + arr);
         boolean flush = checkFlash(arr);
         boolean str = checkStr(arr);
         if (flush) {
             if (str)
                 if (highCard(arr) == ranks.indexOf("a"))
-                    return "Flush Royal";
-                else return "Straight Flush";
+                    return 5;
+                else return 6;
         }
         int max = checkMax(arr, true);
         if (max == 4)
-            return "Care";
+            return 7;
         if (max == 5)
-            return "Full house";
+            return 8;
         if (str)
-            return "Straight";
+            return 9;
         if (flush)
-            return "Flush";
+            return 10;
         if (max == 3)
-            return "Set";
+            return 11;
         if (max == 6)
-            return "Two pairs";
+            return 12;
         if (max == 2)
-            return "Pair";
-        return "High card is " + ranks.get(highCard(arr)).toUpperCase();
+            return 13;
+        return 14;
     }
 }

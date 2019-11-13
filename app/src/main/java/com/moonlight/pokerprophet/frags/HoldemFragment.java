@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,10 @@ import com.moonlight.pokerprophet.DataUtil;
 import com.moonlight.pokerprophet.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import static com.moonlight.pokerprophet.DataUtil.tag;
 
 
 public class HoldemFragment extends Fragment {
@@ -52,6 +56,7 @@ public class HoldemFragment extends Fragment {
     private MaterialCardView card1, card2, card3;
     private ArrayList<MaterialCardView> cards = new ArrayList<>();
     View root;
+
     public HoldemFragment() {
     }
 
@@ -63,6 +68,26 @@ public class HoldemFragment extends Fragment {
         if (root == null) {
             root = inflater.inflate(R.layout.fragment_holdem, container, false);
 
+
+            int count = 0;
+            for (int i = 0; i < 3; i++)
+                for (int j = i + 1; j < 4; j++)
+                    for (int k = j + 1; k < 5; k++) {
+                        System.out.println("" + i + j + k);
+                        count++;
+                    }
+            System.out.println("VARIANTOV === " + count);
+
+
+            count = 0;
+            for (int n = 0; n < 2; n++)
+                for (int i = n + 1; i < 3; i++)
+                    for (int j = i + 1; j < 4; j++)
+                        for (int k = j + 1; k < 5; k++) {
+                            System.out.println("" + n + i + j + k);
+                            count++;
+                        }
+            System.out.println("VARIANTOV === " + count);
 
             cards.add(root.findViewById(R.id.hand1));
             cards.add(root.findViewById(R.id.hand2));
@@ -181,6 +206,7 @@ public class HoldemFragment extends Fragment {
                     alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialogInterface) {
+
                             if ((cards.get(0).getTag() != null) && (cards.get(1).getTag() != null) && (card2.getVisibility() != View.VISIBLE)) {
                                 swipe.setEnabled(false);
                                 TransitionManager.beginDelayedTransition(container);
@@ -191,7 +217,7 @@ public class HoldemFragment extends Fragment {
                                     public void run() {
 
                                         adviceTxt.setTextColor(Color.DKGRAY);
-                                        adviceTxt.setText(DataUtil.prophet());
+                                        // adviceTxt.setText(DataUtil.prophet());
 
                                     }
                                 }, 500);
@@ -207,11 +233,30 @@ public class HoldemFragment extends Fragment {
                             if (card2.getVisibility() == View.VISIBLE) {
                                 if ((cards.get(2).getTag() != null) && (cards.get(3).getTag() != null) && (cards.get(4).getTag() != null)) {
                                     TransitionManager.beginDelayedTransition(container, new AutoTransition().setDuration(300));
+                                    adviceTxt.animate().alpha(0).setDuration(1000).withEndAction(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            adviceTxt.setTextColor(Color.RED);
+
+                                            adviceTxt.animate().alpha(1).scaleY(2).scaleX(2).setDuration(1000).start();
+                                        }
+                                    });
                                     cards.get(5).setVisibility(View.VISIBLE);
                                     bottomProgressDots(3);
                                 }
                                 if (cards.get(5).getTag() != null) {
                                     TransitionManager.beginDelayedTransition(container, new AutoTransition().setDuration(300));
+                                    adviceTxt.animate().alpha(0).setDuration(1000).withEndAction(new Runnable() {
+                                        @Override
+                                        public void run() {
+
+                                            adviceTxt.setTextColor(Color.RED);
+
+                                            adviceTxt.animate().alpha(1).scaleY(2).scaleX(2).setDuration(1000).start();
+
+
+                                        }
+                                    });
                                     cards.get(6).setVisibility(View.VISIBLE);
                                     bottomProgressDots(4);
                                 }
@@ -219,7 +264,7 @@ public class HoldemFragment extends Fragment {
                                     adviceTxt.animate().alpha(0).setDuration(1000).withEndAction(new Runnable() {
                                         @Override
                                         public void run() {
-                                            adviceTxt.setText(DataUtil.prophet());
+
                                             adviceTxt.setTextColor(Color.RED);
 
                                             adviceTxt.animate().alpha(1).scaleY(2).scaleX(2).setDuration(1000).start();
@@ -227,7 +272,20 @@ public class HoldemFragment extends Fragment {
                                     });
                                 }
                             }
-                            System.out.println(cards);
+                            Log.wtf(tag, "Cards curr:");
+                            for (Card card : DataUtil.cards_curr)
+                                Log.d(tag, card.toString());
+                            Log.wtf(tag, "DataUtil.prophet: " + DataUtil.prophet());
+                            Log.wtf(tag, "Res array:");
+                            Log.wtf(tag, "" + Arrays.asList(getResources().getStringArray(R.array.result)));
+
+                            Integer propheti = DataUtil.prophet();
+                            if (propheti != null) {
+                                String str = Arrays.asList(getResources().getStringArray(R.array.result))
+                                        .get(propheti - 1);
+                                System.out.println("Prophet = " + str);
+                                adviceTxt.setText(str);
+                            }
                         }
                     });
                     initRecycler(alertDialog, (MaterialCardView) view);

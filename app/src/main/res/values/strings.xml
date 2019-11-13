@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Poker Prophet</string>
     <string name="holdem_str">Hold\'em</string>
@@ -25,5 +26,23 @@ When playing Texas HoldEm poker, every player is dealt two cards face down – t
     <string name="combo9">Pair</string>
     <string name="combo10">High card</string>
     <string name="combo"></string>
+    <string-array name="result">
+        <item>Perfect start</item>
+        <item>Good start</item>
+        <item>Maybe...</item>
+        <item>No, no, no...</item>
+        <item>Flush Royal</item>
+        <item>Straight Flush</item>
+        <item>Care</item>
+        <item>Full house</item>
+        <item>Straight</item>
+        <item>Flush</item>
+        <item>Set</item>
+        <item>Two pairs</item>
+        <item>Pair</item>
+        <item>:(</item>
+        <item>:((</item>
 
+
+    </string-array>
 </resources>
