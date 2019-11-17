@@ -18,7 +18,7 @@ public class DataUtil {
     public static ArrayList<String> ranks_h = new ArrayList<>(ranks);
     public static ArrayList<String> ranks_t = new ArrayList<>(), suits_t = new ArrayList<>();
     public static ArrayList<Card> cards_curr;
-    public static String tag = "debug tag";
+    public static String tag = "tag_123";
     //TODO Combo
     static {
         reset();
@@ -78,26 +78,32 @@ public class DataUtil {
                     arr = new ArrayList<>(cards_curr);
                     arr.remove(card);
                     int c = check(arr);
-                    if (k > c) k = c;
-                    System.out.println(check(arr));
+                    if (k > c)
+                        k = c;
+
                 }
                 return k;
             case 7:
                 k = 15;
                 for (Card c1 : cards_curr) {
                     for (Card c2 : cards_curr)
-                        if (!c1.equals(c2)) {
+                        if (!((c1.getRank().equals(c2.getRank())) && (c1.getSuit().equals(c2.getSuit())))) {
+                            Log.wtf("tag3", "c1 =" + c1 + " c2 = " + c2);
                             arr = new ArrayList<>(cards_curr);
+                            Log.wtf("tag3", "ARR   == " + arr);
                             arr.remove(c1);
+                            Log.wtf("tag3", "ARR-c1== " + arr);
                             arr.remove(c2);
+                            Log.wtf("tag3", "ARR-c2== " + arr);
                             int c = check(arr);
-                            if (k > c) k = c;
-                            System.out.println(check(arr));
-                        }
-                    return k;
+                            Log.wtf("tag3", "ARR == " + arr + " == " + c + "   CURR = " + cards_curr);
+                            if (k > c)
+                                k = c;
 
+                        }
 
                 }
+                return k;
             default:
                 return null;
         }
@@ -136,7 +142,7 @@ public class DataUtil {
     private static boolean norm2(Card card1, Card card2) {
         return (card1.getSuit().contains(card2.getSuit())) ||
                 (ranks.indexOf(card1.getRank()) - ranks.indexOf(card2.getRank()) < 5) ||
-                ((card1.getRank().contains("a")) && (ranks.indexOf(card2) < 4));
+                ((card1.getRank().contains("a")) && (ranks.indexOf(card2.getRank()) < 4));
     }
 
     private static Integer highCard(ArrayList<Card> arr) {
@@ -162,20 +168,24 @@ public class DataUtil {
             }
         }
         Log.wtf(tag, "CheckMax max = " + max + "  maxi = " + maxi + "   N = " + n + "  ARR == " + arr + " " + re);
-        if (n == 3) {
+        if ((re) && (max == 3)) {
             String setrank = arr.get(maxi).getRank();
             arr.removeIf(card -> card.getRank().equals(setrank));
-            if (checkMax(arr, false) == 2)
+            int check2 = checkMax(arr, false);
+            if ((check2 == 2) || (check2 == 3))
                 return 5;
         }
 
-        if ((re) && (n == 2)) {
+        if ((re) && (max == 2)) {
             String setrank = arr.get(maxi).getRank();
             arr.removeIf(card -> card.getRank().equals(setrank));
-            if ((checkMax(arr, false) == 2))
+            int c = checkMax(arr, false);
+            if ((c == 3))
+                return 5;
+            if ((c == 2))
                 return 6;
         }
-        return n;
+        return max;
     }
 
     private static Integer check(ArrayList<Card> arr) {
@@ -190,6 +200,7 @@ public class DataUtil {
                 else return 6;
         }
         int max = checkMax(arr, true);
+        Log.wtf(tag, "MAX == " + max);
         if (max == 4)
             return 7;
         if (max == 5)

@@ -130,19 +130,19 @@ public class HoldemFragment extends Fragment {
                 }
             });
 
-            share.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //TODO Share anim
-                }
-            });
+//            share.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    //TODO Share anim
+//                }
+//            });
 
-            info.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //TODO Info dialog
-                }
-            });
+//            info.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    //TODO Info dialog
+//                }
+//            });
 
             swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
@@ -155,10 +155,15 @@ public class HoldemFragment extends Fragment {
                         TransitionManager.beginDelayedTransition(container);
                         card2.setVisibility(View.GONE);
                     }
-                    cards.forEach(c -> ((ImageView) c.getChildAt(0)).setImageResource(R.drawable.question));
+
+                    cards.forEach(c -> {
+                        ((ImageView) c.getChildAt(0)).setImageResource(R.drawable.question);
+                        c.setClickable(true);
+                        c.setTag(null);
+                    });
+                    cards.subList(5, 6).forEach(c -> c.setVisibility(View.GONE));
                     bottomProgressDots(1);
                     DataUtil.reset();
-                    cards.forEach(c -> c.setTag(null));
                     if (adviceTxt.getText().equals("GAME OVER"))
                         adviceTxt.animate().scaleX(1f).scaleY(1f).start();
                     swipe.setRefreshing(false);
@@ -233,58 +238,42 @@ public class HoldemFragment extends Fragment {
                             if (card2.getVisibility() == View.VISIBLE) {
                                 if ((cards.get(2).getTag() != null) && (cards.get(3).getTag() != null) && (cards.get(4).getTag() != null)) {
                                     TransitionManager.beginDelayedTransition(container, new AutoTransition().setDuration(300));
-                                    adviceTxt.animate().alpha(0).setDuration(1000).withEndAction(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            adviceTxt.setTextColor(Color.RED);
-
-                                            adviceTxt.animate().alpha(1).scaleY(2).scaleX(2).setDuration(1000).start();
-                                        }
-                                    });
                                     cards.get(5).setVisibility(View.VISIBLE);
                                     bottomProgressDots(3);
                                 }
                                 if (cards.get(5).getTag() != null) {
                                     TransitionManager.beginDelayedTransition(container, new AutoTransition().setDuration(300));
-                                    adviceTxt.animate().alpha(0).setDuration(1000).withEndAction(new Runnable() {
-                                        @Override
-                                        public void run() {
-
-                                            adviceTxt.setTextColor(Color.RED);
-
-                                            adviceTxt.animate().alpha(1).scaleY(2).scaleX(2).setDuration(1000).start();
-
-
-                                        }
-                                    });
                                     cards.get(6).setVisibility(View.VISIBLE);
                                     bottomProgressDots(4);
                                 }
                                 if (cards.get(6).getTag() != null) {
-                                    adviceTxt.animate().alpha(0).setDuration(1000).withEndAction(new Runnable() {
-                                        @Override
-                                        public void run() {
 
-                                            adviceTxt.setTextColor(Color.RED);
-
-                                            adviceTxt.animate().alpha(1).scaleY(2).scaleX(2).setDuration(1000).start();
-                                        }
-                                    });
                                 }
                             }
                             Log.wtf(tag, "Cards curr:");
                             for (Card card : DataUtil.cards_curr)
                                 Log.d(tag, card.toString());
-                            Log.wtf(tag, "DataUtil.prophet: " + DataUtil.prophet());
+                            //Log.wtf(tag, "DataUtil.prophet: " + DataUtil.prophet());
                             Log.wtf(tag, "Res array:");
                             Log.wtf(tag, "" + Arrays.asList(getResources().getStringArray(R.array.result)));
 
                             Integer propheti = DataUtil.prophet();
+                            Log.wtf(tag, "Integer propheti = DataUtil.prophet(); " + propheti);
                             if (propheti != null) {
                                 String str = Arrays.asList(getResources().getStringArray(R.array.result))
                                         .get(propheti - 1);
-                                System.out.println("Prophet = " + str);
-                                adviceTxt.setText(str);
+                                Log.wtf(tag, "Prophet = " + str);
+                                if (!adviceTxt.getText().equals(str))
+                                    adviceTxt.animate().alpha(0).setDuration(200).withEndAction(new Runnable() {
+                                        @Override
+                                        public void run() {
+
+                                            adviceTxt.setText(str);
+
+                                            adviceTxt.animate().alpha(1).scaleY(2).scaleX(2).setDuration(300).start();
+                                        }
+                                    });
+
                             }
                         }
                     });
