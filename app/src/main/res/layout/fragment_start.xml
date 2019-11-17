@@ -6,17 +6,19 @@
     android:layout_height="match_parent"
     android:background="@color/cardview_dark_background">
 
-    <androidx.appcompat.widget.AppCompatImageButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/share_btn"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginTop="8dp"
+        android:layout_margin="8dp"
         android:background="#00000000"
         android:src="@drawable/ic_share"
+        app:backgroundTint="#0000"
         app:layout_constraintEnd_toStartOf="@id/info_btn"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/info_btn"
         android:layout_width="56dp"
         android:layout_height="56dp"
@@ -24,6 +26,7 @@
         android:layout_marginEnd="8dp"
         android:background="#00000000"
         android:src="@drawable/ic_info"
+        app:backgroundTint="#0000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,43 +41,43 @@
         tools:context=".frags.StartFragment">
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/omaha_card"
             android:layout_width="match_parent"
             android:layout_height="125dp"
             android:layout_margin="8dp"
-            android:foregroundGravity="center"
-            app:cardBackgroundColor="#C8C8C8"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:cardBackgroundColor="#C8C8C8">
 
-            <TextView
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/omaha_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+
                 android:text="@string/omaha_str"
-                android:textSize="30sp" />
+                android:textAppearance="@style/CardView.Dark"
+                android:textSize="30sp"
+                app:backgroundTint="#80C8C8C8" />
+
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/holdem_card"
             android:layout_width="match_parent"
             android:layout_height="125dp"
             android:layout_margin="8dp"
-            app:cardBackgroundColor="#C8C8C8"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:cardBackgroundColor="#C8C8C8">
 
-            <TextView
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/holdem_btn"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="125dp"
+
                 android:gravity="center"
                 android:text="@string/holdem_str"
-                android:textSize="30sp" />
+                android:textAppearance="@style/CardView.Dark"
+                android:textColorLink="#00F1F1F1"
+                android:textSize="30sp"
+                app:backgroundTint="#C8C8C8" />
         </com.google.android.material.card.MaterialCardView>
+
 
     </LinearLayout>
 

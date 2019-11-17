@@ -24,17 +24,19 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/share_btn"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_marginTop="8dp"
+            android:layout_margin="8dp"
             android:background="#00000000"
             android:src="@drawable/ic_share"
+            app:backgroundTint="#0000"
             app:layout_constraintEnd_toStartOf="@id/info_btn"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/info_btn"
             android:layout_width="56dp"
             android:layout_height="56dp"
@@ -42,6 +44,7 @@
             android:layout_marginEnd="8dp"
             android:background="#00000000"
             android:src="@drawable/ic_info"
+            app:backgroundTint="#0000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -146,7 +149,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="125dp"
                 android:layout_margin="8dp"
                 android:animateLayoutChanges="true"
                 android:visibility="gone"

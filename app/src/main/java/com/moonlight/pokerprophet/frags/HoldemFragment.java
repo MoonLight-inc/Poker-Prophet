@@ -3,6 +3,7 @@ package com.moonlight.pokerprophet.frags;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -68,26 +69,31 @@ public class HoldemFragment extends Fragment {
         if (root == null) {
             root = inflater.inflate(R.layout.fragment_holdem, container, false);
 
+            final FloatingActionButton share_btn = root.findViewById(R.id.share_btn);
+            final FloatingActionButton info_btn = root.findViewById(R.id.info_btn);
 
-            int count = 0;
-            for (int i = 0; i < 3; i++)
-                for (int j = i + 1; j < 4; j++)
-                    for (int k = j + 1; k < 5; k++) {
-                        System.out.println("" + i + j + k);
-                        count++;
-                    }
-            System.out.println("VARIANTOV === " + count);
+            info_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                    AlertDialog alertDialog = builder.setView(R.layout.dialog_about)
+                            .show();
+                    alertDialog.getWindow()
+                            .setBackgroundDrawable(null);
+                }
+            });
 
+            share_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "ДелисЪ");
+                    sendIntent.setType("text/plain");
+                    startActivity(sendIntent);
+                }
+            });
 
-            count = 0;
-            for (int n = 0; n < 2; n++)
-                for (int i = n + 1; i < 3; i++)
-                    for (int j = i + 1; j < 4; j++)
-                        for (int k = j + 1; k < 5; k++) {
-                            System.out.println("" + n + i + j + k);
-                            count++;
-                        }
-            System.out.println("VARIANTOV === " + count);
 
             cards.add(root.findViewById(R.id.hand1));
             cards.add(root.findViewById(R.id.hand2));
@@ -100,9 +106,9 @@ public class HoldemFragment extends Fragment {
             card2 = root.findViewById(R.id.card2);
             card3 = root.findViewById(R.id.card3);
 
-            back = root.findViewById(R.id.back_btn);
-            share = root.findViewById(R.id.share_btn);
-            info = root.findViewById(R.id.info_btn);
+            back = root.findViewById(R.id.back_btn); //todo
+            //share = root.findViewById(R.id.share_btn);
+            //info = root.findViewById(R.id.info_btn);
 
             fab = root.findViewById(R.id.fab);
             adviceTxt = root.findViewById(R.id.textView);
@@ -166,6 +172,7 @@ public class HoldemFragment extends Fragment {
                     DataUtil.reset();
                     if (adviceTxt.getText().equals("GAME OVER"))
                         adviceTxt.animate().scaleX(1f).scaleY(1f).start();
+
                     swipe.setRefreshing(false);
 
                 }

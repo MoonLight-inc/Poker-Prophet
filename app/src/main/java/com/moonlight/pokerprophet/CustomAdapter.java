@@ -87,6 +87,7 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             DataUtil.cards_curr.add(new Card("d", tag.substring(0, tag.length() - 1)));
                             break;
                     }
+                    clicked.setClickable(false);
                     alertDialog.dismiss();
                 }
             });
