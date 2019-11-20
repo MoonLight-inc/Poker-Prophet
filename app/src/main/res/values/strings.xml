@@ -42,7 +42,11 @@ When playing Texas HoldEm poker, every player is dealt two cards face down – t
         <item>Pair</item>
         <item>:(</item>
         <item>:((</item>
-
-
+    </string-array>
+    <string-array name="stages">
+        <item>Pre-flop</item>
+        <item>Flop</item>
+        <item>Turn</item>
+        <item>River</item>
     </string-array>
 </resources>
