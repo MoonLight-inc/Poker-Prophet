@@ -1,6 +1,5 @@
 package com.moonlight.pokerprophet.frags;
 
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -37,11 +36,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
+import static com.moonlight.pokerprophet.DataUtil.cards_curr;
+import static com.moonlight.pokerprophet.DataUtil.checkHand;
+import static com.moonlight.pokerprophet.DataUtil.getCurrentArray;
 import static com.moonlight.pokerprophet.DataUtil.tag;
 
 
 public class HoldemFragment extends Fragment {
-
 
     private static final int MAX_STAGE = 4;
     private AlertDialog.Builder builder;
@@ -53,10 +58,10 @@ public class HoldemFragment extends Fragment {
     private TextView stage;
     private ImageButton back, info, share;
 
-
     private MaterialCardView card1, card2, card3;
     private ArrayList<MaterialCardView> cards = new ArrayList<>();
     View root;
+
 
     public HoldemFragment() {
     }
@@ -64,7 +69,6 @@ public class HoldemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
 
         if (root == null) {
             root = inflater.inflate(R.layout.fragment_holdem, container, false);
@@ -82,6 +86,7 @@ public class HoldemFragment extends Fragment {
                             .setBackgroundDrawable(null);
                 }
             });
+
 
             share_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -136,19 +141,6 @@ public class HoldemFragment extends Fragment {
                 }
             });
 
-//            share.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    //TODO Share anim
-//                }
-//            });
-
-//            info.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    //TODO Info dialog
-//                }
-//            });
 
             swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
@@ -161,18 +153,20 @@ public class HoldemFragment extends Fragment {
                         TransitionManager.beginDelayedTransition(container);
                         card2.setVisibility(View.GONE);
                     }
+                    delayRun.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            cards.forEach(c -> {
+                                ((ImageView) c.getChildAt(0)).setImageResource(R.drawable.question);
+                                c.setClickable(true);
+                                c.setTag(null);
+                            });
+                            cards.subList(5, 7).forEach(c -> c.setVisibility(View.GONE));
+                        }
+                    }, 300);
 
-                    cards.forEach(c -> {
-                        ((ImageView) c.getChildAt(0)).setImageResource(R.drawable.question);
-                        c.setClickable(true);
-                        c.setTag(null);
-                    });
-                    cards.subList(5, 6).forEach(c -> c.setVisibility(View.GONE));
                     bottomProgressDots(1);
                     DataUtil.reset();
-                    if (adviceTxt.getText().equals("GAME OVER"))
-                        adviceTxt.animate().scaleX(1f).scaleY(1f).start();
-
                     swipe.setRefreshing(false);
 
                 }
@@ -232,7 +226,7 @@ public class HoldemFragment extends Fragment {
                                         // adviceTxt.setText(DataUtil.prophet());
 
                                     }
-                                }, 500);
+                                }, 400);
                                 delayRun.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
@@ -240,7 +234,7 @@ public class HoldemFragment extends Fragment {
                                         card1.setVisibility(View.VISIBLE);
                                         swipe.setEnabled(true);
                                     }
-                                }, 1400);
+                                }, 800);
                             }
                             if (card2.getVisibility() == View.VISIBLE) {
                                 if ((cards.get(2).getTag() != null) && (cards.get(3).getTag() != null) && (cards.get(4).getTag() != null)) {
@@ -261,26 +255,29 @@ public class HoldemFragment extends Fragment {
                             for (Card card : DataUtil.cards_curr)
                                 Log.d(tag, card.toString());
                             //Log.wtf(tag, "DataUtil.prophet: " + DataUtil.prophet());
-                            Log.wtf(tag, "Res array:");
-                            Log.wtf(tag, "" + Arrays.asList(getResources().getStringArray(R.array.result)));
+                            //Log.wtf(tag, "Res array:");
+                            //Log.wtf(tag, "" + Arrays.asList(getResources().getStringArray(R.array.result)));
 
-                            Integer propheti = DataUtil.prophet();
-                            Log.wtf(tag, "Integer propheti = DataUtil.prophet(); " + propheti);
-                            if (propheti != null) {
-                                String str = Arrays.asList(getResources().getStringArray(R.array.result))
-                                        .get(propheti - 1);
-                                Log.wtf(tag, "Prophet = " + str);
-                                if (!adviceTxt.getText().equals(str))
-                                    adviceTxt.animate().alpha(0).setDuration(200).withEndAction(new Runnable() {
-                                        @Override
-                                        public void run() {
+                            //Integer propheti = DataUtil.prophet();
+                            //Log.wtf(tag, "Integer propheti = DataUtil.prophet(); " + propheti);
+//                            if (propheti != null) {
+//                                String str = Arrays.asList(getResources().getStringArray(R.array.result))
+//                                        .get(propheti - 1);
+                            // Log.wtf(tag, "Prophet = " + str);
 
-                                            adviceTxt.setText(str);
-
-                                            adviceTxt.animate().alpha(1).scaleY(2).scaleX(2).setDuration(300).start();
-                                        }
-                                    });
-
+                            switch (cards_curr.size()) {
+                                case 2:
+                                    setAnimText(adviceTxt, Arrays.asList(getResources().getStringArray(R.array.result)).get(checkHand() - 1), 150);
+                                    break;
+                                case 5:
+                                    prophet();
+                                    break;
+                                case 6:
+                                    prophet();
+                                    break;
+                                case 7:
+                                    prophet();
+                                    break;
                             }
                         }
                     });
@@ -300,12 +297,26 @@ public class HoldemFragment extends Fragment {
         linearLayout3.animate().alpha(1).setStartDelay(200).setDuration(1000).start();
     }
 
+    private void prophet() {
+        Observable.fromArray(getCurrentArray())
+                .map((a) -> {
+                    System.out.println(a);
+                    return DataUtil.check((ArrayList) a);
+                })
+                .sorted()
+                .firstElement()
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(e -> setAnimText(adviceTxt,
+                        Arrays.asList(getResources().getStringArray(R.array.result)).get((int) e - 1),
+                        150));
+    }
+
     private void initRecycler(AlertDialog alertDialog, MaterialCardView view) {
         RecyclerView recyclerSpades = alertDialog.findViewById(R.id.spades);
         RecyclerView recyclerDiamonds = alertDialog.findViewById(R.id.diamonds);
         RecyclerView recyclerHearts = alertDialog.findViewById(R.id.hearts);
         RecyclerView recyclerClubs = alertDialog.findViewById(R.id.clubs);
-
 
         recyclerSpades.setLayoutManager(getLayoutManager(alertDialog));
         recyclerDiamonds.setLayoutManager(getLayoutManager(alertDialog));
@@ -326,7 +337,6 @@ public class HoldemFragment extends Fragment {
         new LinearSnapHelper().attachToRecyclerView(recyclerDiamonds);
         new LinearSnapHelper().attachToRecyclerView(recyclerHearts);
         new LinearSnapHelper().attachToRecyclerView(recyclerSpades);
-
     }
 
     private RecyclerView.LayoutManager getLayoutManager(AlertDialog alertDialog) {
@@ -357,37 +367,21 @@ public class HoldemFragment extends Fragment {
             dots[current_index].setColorFilter(R.color.colorPrimary, PorterDuff.Mode.DST);
         }
 
-        switch (current_index) {
-            case 0:
-                setAnimText(stage, R.string.stage0);
-                break;
-            case 1:
-                setAnimText(stage, R.string.stage1);
-                break;
-            case 2:
-                setAnimText(stage, R.string.stage2);
-                break;
-            case 3:
-                setAnimText(stage, R.string.stage3);
-                break;
-        }
+        setAnimText(stage, getResources().getStringArray(R.array.stages)[current_index], 100);
+
+
     }
 
 
-    private void setAnimText(TextView text, Integer stringRes) {
-        text.animate().alpha(0).setDuration(300).withEndAction(new Runnable() {
-            @Override
-            public void run() {
-                text.setText(stringRes);
-                text.animate().alpha(1).setDuration(300).start();
-            }
-        }).start();
+    private void setAnimText(TextView text, String str, int duration) {
+        if (!text.getText().equals(str))
+            text.animate().alpha(0).setDuration(duration).withEndAction(new Runnable() {
+                @Override
+                public void run() {
+                    text.setText(str);
+                    text.animate().alpha(1).setDuration(duration).start();
+                }
+            }).start();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        System.out.println("RESUME =============");
-    }
 }

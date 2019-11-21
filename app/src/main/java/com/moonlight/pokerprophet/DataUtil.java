@@ -19,6 +19,7 @@ public class DataUtil {
     public static ArrayList<String> ranks_t = new ArrayList<>(), suits_t = new ArrayList<>();
     public static ArrayList<Card> cards_curr;
     public static String tag = "tag_123";
+
     //TODO Combo
     static {
         reset();
@@ -54,6 +55,19 @@ public class DataUtil {
     }
 
 
+    public static int checkHand() {
+
+        Card card1 = cards_curr.get(0);
+        Card card2 = cards_curr.get(1);
+        if ((pair(card1, card2) && (top10(card1))) || ((top10(card1) && top10(card2)) && norm2(card1, card2)))
+            return 1;
+        if (top10(card1) && (top10(card2)))
+            return 2;
+        if (norm2(card1, card2))
+            return 3;
+        return 4;
+    }
+
     public static Integer prophet() {
         Card card1, card2, card3, card4, card5, card6, card7;
         ArrayList<Card> arr = null;
@@ -85,7 +99,8 @@ public class DataUtil {
                 return k;
             case 7:
                 k = 15;
-                for (Card c1 : cards_curr) {
+                ArrayList<ArrayList<Card>> comp_arr = new ArrayList<ArrayList<Card>>();
+                for (Card c1 : cards_curr)
                     for (Card c2 : cards_curr)
                         if (!((c1.getRank().equals(c2.getRank())) && (c1.getSuit().equals(c2.getSuit())))) {
                             Log.wtf("tag3", "c1 =" + c1 + " c2 = " + c2);
@@ -95,19 +110,59 @@ public class DataUtil {
                             Log.wtf("tag3", "ARR-c1== " + arr);
                             arr.remove(c2);
                             Log.wtf("tag3", "ARR-c2== " + arr);
-                            int c = check(arr);
-                            Log.wtf("tag3", "ARR == " + arr + " == " + c + "   CURR = " + cards_curr);
-                            if (k > c)
-                                k = c;
-
+                            comp_arr.add(arr);
                         }
 
-                }
+
+//                int c = check((ArrayList<Card>) arr.toArray());
+//                Log.wtf("tag3", "ARR == " + arr + " == " + c + "   CURR = " + cards_curr);
+//                if (k > c)
+//                    k = c;
+
+
                 return k;
             default:
                 return null;
         }
     }
+
+
+    public static ArrayList<Card>[] getCurrentArray() {
+        ArrayList<ArrayList<Card>> result_arr = new ArrayList();
+        ArrayList<Card> arr;
+        ArrayList<Card>[] arr_buff;
+        switch (cards_curr.size()) {
+            case 5:
+                Log.wtf(tag, "5 array: " + new ArrayList[]{cards_curr}.toString());
+                return new ArrayList[]{cards_curr};
+            case 6:
+                for (Card card : cards_curr) {
+                    arr = new ArrayList<>(cards_curr);
+                    arr.remove(card);
+                    result_arr.add(arr);
+                }
+                arr_buff = new ArrayList[result_arr.size()];
+                result_arr.toArray(arr_buff);
+                Log.wtf(tag, "6 array: " + arr_buff);
+                return arr_buff;
+            case 7:
+                for (Card c1 : cards_curr)
+                    for (Card c2 : cards_curr)
+                        if (!((c1.getRank().equals(c2.getRank())) && (c1.getSuit().equals(c2.getSuit())))) {
+                            arr = new ArrayList<>(cards_curr);
+                            arr.remove(c1);
+                            arr.remove(c2);
+                            result_arr.add(arr);
+                        }
+                arr_buff = new ArrayList[result_arr.size()];
+                result_arr.toArray(arr_buff);
+                Log.wtf(tag, "7 array: " + result_arr.toArray());
+                return arr_buff;
+            default:
+                return null;
+        }
+    }
+
 
     private static boolean checkFlash(ArrayList<Card> arr) {
         Log.wtf(tag, "Flush " + arr);
@@ -188,7 +243,7 @@ public class DataUtil {
         return max;
     }
 
-    private static Integer check(ArrayList<Card> arr) {
+    public static Integer check(ArrayList<Card> arr) {
         Log.wtf(tag, "<CHECK> ===========================================================");
         Log.wtf(tag, "Array = " + arr);
         boolean flush = checkFlash(arr);
