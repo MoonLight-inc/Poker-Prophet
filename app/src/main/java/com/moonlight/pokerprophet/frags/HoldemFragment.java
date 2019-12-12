@@ -25,6 +25,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.moonlight.pokerprophet.Card;
@@ -64,6 +65,7 @@ public class HoldemFragment extends Fragment {
 
 
     public HoldemFragment() {
+
     }
 
     @Override
@@ -72,7 +74,6 @@ public class HoldemFragment extends Fragment {
 
         if (root == null) {
             root = inflater.inflate(R.layout.fragment_holdem, container, false);
-
             final FloatingActionButton share_btn = root.findViewById(R.id.share_btn);
             final FloatingActionButton info_btn = root.findViewById(R.id.info_btn);
 
@@ -157,7 +158,10 @@ public class HoldemFragment extends Fragment {
                         @Override
                         public void run() {
                             cards.forEach(c -> {
-                                ((ImageView) c.getChildAt(0)).setImageResource(R.drawable.question);
+                                Glide.with(root)
+                                        .load(R.drawable.question)
+                                        .into((ImageView) c.getChildAt(0));
+                                //((ImageView) c.getChildAt(0)).setImageResource(R.drawable.question);
                                 c.setClickable(true);
                                 c.setTag(null);
                             });
