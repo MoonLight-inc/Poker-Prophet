@@ -68,25 +68,25 @@ public class HoldemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_holdem, container, false);
-        int count = 0;
-        for (int i = 0; i < 3; i++)
-            for (int j = i + 1; j < 4; j++)
-                for (int k = j + 1; k < 5; k++) {
-                    System.out.println("" + i + j + k);
-                    count++;
-                }
-        System.out.println("VARIANTOV === " + count);
+//         int count = 0;
+//         for (int i = 0; i < 3; i++)
+//             for (int j = i + 1; j < 4; j++)
+//                 for (int k = j + 1; k < 5; k++) {
+//                     System.out.println("" + i + j + k);
+//                     count++;
+//                 }
+//         System.out.println("VARIANTOV === " + count);
 
 
-        count = 0;
-        for (int n = 0; n < 2; n++)
-            for (int i = n + 1; i < 3; i++)
-                for (int j = i + 1; j < 4; j++)
-                    for (int k = j + 1; k < 5; k++) {
-                        System.out.println("" + n + i + j + k);
-                        count++;
-                    }
-        System.out.println("VARIANTOV === " + count);
+//         count = 0;
+//         for (int n = 0; n < 2; n++)
+//             for (int i = n + 1; i < 3; i++)
+//                 for (int j = i + 1; j < 4; j++)
+//                     for (int k = j + 1; k < 5; k++) {
+//                         System.out.println("" + n + i + j + k);
+//                         count++;
+//                     }
+//         System.out.println("VARIANTOV === " + count);
 
         cards.add(root.findViewById(R.id.hand1));
         cards.add(root.findViewById(R.id.hand2));
